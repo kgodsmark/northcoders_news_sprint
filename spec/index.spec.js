@@ -44,4 +44,27 @@ describe('API', () => {
         });
     });
 
+    describe('GET /TOPICS/:TOPIC/ARTICLES', () => {
+        it('sends back the correct specified article object with a status code of 200', () => {
+            return request
+                .get('/api/topics/football/articles')
+                .expect(200)
+                .then(res => {
+                    expect(res.body.article).to.be.an('array')
+                    expect(res.body.article.length).to.equal(1)
+                    expect(res.body.article[0].belongs_to).to.equal('football')
+                });
+        });
+        it('sends back a 404 response for an incorrect topic', () => {
+            return request
+                .get('/api/topics/wrong/articles')
+                .expect(404)
+                .then(res => {
+                    console.log(res)
+                    expect(res.body.msg).to.equal('page not found')
+                });
+        });
+    });
+
+
 });
