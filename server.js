@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 const config = require('./config');
-// var db = config.DB[process.env.NODE_ENV] || process.env.DB;
-// mongoose.Promise = Promise;
+var db = config.DB[process.env.NODE_ENV] || process.env.DB;
+mongoose.Promise = Promise;
 const router = require('./routes/api');
 const path = require('path');
 
@@ -15,9 +15,9 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '/public')));
 
 
-// mongoose.connect(db, { useMongoClient: true })
-//   .then(() => console.log('successfully connected to', db))
-//   .catch(err => console.log('connection failed', err));
+mongoose.connect(db, { useMongoClient: true })
+  .then(() => console.log('successfully connected to', db))
+  .catch(err => console.log('connection failed', err));
 
 app.use(bodyParser.json());
 
