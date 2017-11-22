@@ -7,7 +7,7 @@ const app = express();
 const config = require('./config');
 // var db = config.DB[process.env.NODE_ENV] || process.env.DB;
 // mongoose.Promise = Promise;
-// const router = require('./routes/api');
+const router = require('./routes/api');
 const path = require('path');
 
 // app.set('view engine', 'ejs');
@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(bodyParser.json());
 
-// app.use('/api', router);
+app.use('/api', router);
 
 module.exports = app;
 
