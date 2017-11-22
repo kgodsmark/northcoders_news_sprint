@@ -7,4 +7,11 @@ function getAllArticles(req, res, next) {
     .catch(err => next(err));
 }
 
-module.exports = { getAllArticles };
+function getAllTopics(req, res, next) {
+    return Topics.find()
+        .then(topics => res.send({ topics }))
+        .catch(err => next(err));
+}
+
+
+module.exports = { getAllArticles, getAllTopics };

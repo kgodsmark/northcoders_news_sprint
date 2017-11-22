@@ -10,8 +10,6 @@ mongoose.Promise = Promise;
 const router = require('./routes/api');
 const path = require('path');
 
-// app.set('view engine', 'ejs');
-
 app.use(express.static(path.join(__dirname, '/public')));
 
 
