@@ -3,8 +3,8 @@ const { Articles, Comments, Users, Topics } = require('../models/models');
 
 function getAllArticles(req, res, next) {
     return Articles.find()
-            .then(articles => res.send({ articles }))
-    .catch(err => next(err));
+        .then(articles => res.send({ articles }))
+        .catch(err => next(err));
 }
 
 function getAllTopics(req, res, next) {
@@ -37,5 +37,21 @@ function getAllCommentsByArticle(req, res, next) {
         });
 }
 
+function addCommentToArticle(req, res, next) {
 
-module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle };
+    let newComment = new Comments({ body: req.body.body, belongs_to: req.params.article_id, created_by: 'northcoders' }).save()
+        .then((comment) => {
+            return Comments.find({ belongs_to: comment.belongs_to })
+        })
+        .then((comments) => {
+            res.status(201).send(comments);
+        })
+        .catch((err) => {
+            if (err.name === 'ValidationError') return next({ err, type: 400 });
+            next(err)
+        });
+
+}
+
+
+module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle };

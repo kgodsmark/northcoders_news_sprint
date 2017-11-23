@@ -86,5 +86,28 @@ describe('API', () => {
         });
     });
 
+    describe('POST /ARTICLES/:ARTICLE_ID/COMMENTS', () => {
+        it('saves a new comment to the article with a status code of 201', () => {
+            return request
+                .post(`/api/articles/${userData.comments[0].belongs_to}/comments`)
+                .send({ body: "This is my new comment", belongs_to: `${userData.comments[0].belongs_to}`, created_by: 'northcoders' })
+                .expect(201)
+                .then(res => {
+                    expect(res.body).to.be.an('array');
+                    expect(res.body.length).to.equal(3);
+                    expect(res.body[2].body).to.be.a('string')
+                });
+        });
+        it('sends back a 400 response for a bad request', () => {
+            return request
+                .post('/api/articles/1234/comments')
+                .send({ body: "This is my new comment", belongs_to: `${userData.comments[0].belongs_to}`, created_by: 'northcoders' })
+                .expect(400)
+                .then(res => {
+                    expect(res.body.msg).to.equal('bad request')
+                });
+        });
+    });
+
 
 });
