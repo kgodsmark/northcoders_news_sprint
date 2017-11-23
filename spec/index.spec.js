@@ -109,5 +109,35 @@ describe('API', () => {
         });
     });
 
+    describe('PUT /ARTICLES/:ARTICLE_ID/', () => {
+        it('increments the vote by +1 when vote=up', () => {
+            return request
+                .put(`/api/articles/${userData.articles[0]._id}?vote=up`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.votes).to.equal(1);
+                });
+        });
+        it('increments the vote by -1 when vote=down', () => {
+            return request
+                .put(`/api/articles/${userData.articles[1]._id}?vote=down`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.votes).to.equal(-1);
+                });
+        });
+
+        it('no increment in not valid query', () => {
+            return request
+                .put(`/api/articles/${userData.articles[0]._id}?vote=hello`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.votes).to.equal(0);
+                });
+        });
+    });
 
 });

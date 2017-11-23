@@ -53,5 +53,18 @@ function addCommentToArticle(req, res, next) {
 
 }
 
+function changeArticleVotes(req, res, next) {
+    let increment = 0;
+    if (req.query.vote === 'up') increment++;
+    if (req.query.vote === 'down') increment--;
+    return Articles.findByIdAndUpdate(req.params.article_id, { $inc: { votes: increment } }, { new: true })
+        .then((article) => {
+            res.send(article);
+        })
+        .catch(err => {
+            next(err);
+        });
+}
 
-module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle };
+
+module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes };
