@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment } = require('../controllers/index');
+const { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile } = require('../controllers/index');
 
 router.get('/articles', getAllArticles);
 
@@ -16,5 +16,7 @@ router.put('/articles/:article_id', changeArticleVotes);
 router.put('/comments/:comment_id', changeCommentVotes);
 
 router.delete('/comments/:comment_id', deleteComment);
+
+router.get('/users/:username', getUserProfile);
 
 module.exports = router;

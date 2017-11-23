@@ -203,4 +203,25 @@ describe('API', () => {
         });
     });
 
+    describe('GET /USERS/:USERNAME', () => {
+        it('sends back the correct object with a status code of 200', () => {
+            return request
+                .get('/api/users/northcoder')
+                .expect(200)
+                .then(res => {
+                    expect(res.body.user).to.be.an('array')
+                    expect(res.body.user.length).to.equal(1)
+                    expect(res.body.user[0].username).to.be.a('string')
+                });
+        });
+        it('sends an error message if user doesn\'t exist', () => {
+            return request
+                .get('/api/users/kerry')
+                .expect(404)
+                .then(res => {
+                    expect(res.body.msg).to.equal('page not found')
+                });
+        });
+    });
+
 });

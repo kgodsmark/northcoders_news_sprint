@@ -88,5 +88,17 @@ function deleteComment(req, res, next) {
         });
 }
 
+function getUserProfile(req, res, next) {
+    return Users.find({ username: req.params.username })
+        .then(user => {
+            if (user.length === 0) return next({ type: 404 });
+            res.send({ user })
+        })
+        .catch(err => {
+            next(err)
+        });
 
-module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment };
+}
+
+
+module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile };
