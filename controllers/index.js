@@ -79,5 +79,14 @@ function changeCommentVotes(req, res, next) {
         });
 }
 
+function deleteComment(req, res, next) {
+    return Comments.findByIdAndRemove(req.params.comment_id)
+        .then((data) => res.status(202).send({ comment_deleted: data }))
+        .catch(err => {
+            if (err.name === 'CastError') return next({ err, type: 404 });
+            next(err)
+        });
+}
 
-module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes };
+
+module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment };

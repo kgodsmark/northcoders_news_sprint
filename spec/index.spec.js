@@ -170,7 +170,37 @@ describe('API', () => {
                     expect(res.body.votes).to.equal(0);
                 });
         });
+    });
 
+    describe('DELETE /COMMENTS/:COMMENT_ID/', () => {
+        it('deletes a comment by comment ID', () => {
+            return request
+                .delete(`/api/comments/${userData.comments[0]._id}`)
+                .expect(202)
+                .then(res => {
+                    expect(res.body.comment_deleted._id).to.equal(`${userData.comments[0]._id}`);
+                })
+                .then(() => {
+                    return request
+                        .get(`/api/articles/${userData.comments[0].belongs_to}/comments`)
+                        .expect(200)
+                        .then(res => {
+                            expect(res.body.comments).to.be.an('array')
+                            expect(res.body.comments.length).to.equal(1)
+                            expect(res.body.comments[0].belongs_to).to.be.a('string')
+                        });
+                });
+        });
+
+
+        it('returns error message if incorrect parameter', () => {
+            return request
+                .delete(`/api/comments/1234`)
+                .expect(404)
+                .then(res => {
+                    expect(res.body.msg).to.equal('page not found');
+                })
+        });
     });
 
 });
