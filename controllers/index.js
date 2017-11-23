@@ -24,5 +24,18 @@ function getAllArticlesByTopic(req, res, next) {
         });
 }
 
+function getAllCommentsByArticle(req, res, next) {
+    return Comments.find({
+        belongs_to: req.params.article_id
+    })
+        .then(comments => {
+            res.send({ comments })
+        })
+        .catch(err => {
+            if (err.name === 'CastError') return next({ err, type: 404 });
+            next(err)
+        });
+}
 
-module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic };
+
+module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle };

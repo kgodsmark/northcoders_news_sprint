@@ -65,5 +65,26 @@ describe('API', () => {
         });
     });
 
+    describe('GET /ARTICLES/:ARTICLE_ID/COMMENTS', () => {
+        it('sends back the correct specified article object with a status code of 200', () => {
+            return request
+                .get(`/api/articles/${userData.comments[0].belongs_to}/comments`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body.comments).to.be.an('array')
+                    expect(res.body.comments.length).to.equal(2)
+                    expect(res.body.comments[0].belongs_to).to.be.a('string')
+                });
+        });
+        it('sends back a 404 response for an incorrect article id', () => {
+            return request
+                .get('/api/articles/1234/comments')
+                .expect(404)
+                .then(res => {
+                    expect(res.body.msg).to.equal('page not found')
+                });
+        });
+    });
+
 
 });
