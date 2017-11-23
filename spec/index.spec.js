@@ -160,7 +160,6 @@ describe('API', () => {
                 });
         });
 
-
         it('no increment in not valid query', () => {
             return request
                 .put(`/api/comments/${userData.comments[0]._id}?vote=hello`)
@@ -191,7 +190,6 @@ describe('API', () => {
                         });
                 });
         });
-
 
         it('returns error message if incorrect parameter', () => {
             return request
