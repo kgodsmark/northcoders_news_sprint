@@ -16,7 +16,7 @@ function getAllTopics(req, res, next) {
 function getAllArticlesByTopic(req, res, next) {
     return Articles.find({ belongs_to: req.params.topic })
         .then(article => {
-            if (article.length < 1) next({ type: 404 });
+            if (article.length < 1) return next({ type: 404 });
             res.send({ article })
         })
         .catch(err => {

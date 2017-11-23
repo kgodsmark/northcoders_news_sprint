@@ -60,7 +60,6 @@ describe('API', () => {
                 .get('/api/topics/wrong/articles')
                 .expect(404)
                 .then(res => {
-                    console.log(res)
                     expect(res.body.msg).to.equal('page not found')
                 });
         });
