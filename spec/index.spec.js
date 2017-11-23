@@ -224,4 +224,25 @@ describe('API', () => {
         });
     });
 
+    describe('GET /USERS/:USERNAME/REPOS', () => {
+        it('sends back the correct object with a status code of 200', () => {
+            return request
+                .get('/api/users/northcoder/repos')
+                .expect(200)
+                .then(res => {
+                    expect(res.body.articles).to.be.an('array')
+                    expect(res.body.articles.length).to.equal(2)
+                    expect(res.body.articles[0].created_by).to.be.a('string')
+                });
+        });
+        it('sends an error message if user doesn\'t exist', () => {
+            return request
+                .get('/api/users/kerry/repos')
+                .expect(404)
+                .then(res => {
+                    expect(res.body.msg).to.equal('page not found')
+                });
+        });
+    });
+
 });

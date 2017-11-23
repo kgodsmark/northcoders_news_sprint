@@ -97,8 +97,17 @@ function getUserProfile(req, res, next) {
         .catch(err => {
             next(err)
         });
-
 }
 
+function getUserPublicRepos(req, res, next) {
+    return Articles.find({ created_by: req.params.username })
+        .then(articles => {
+            if (articles.length === 0) return next({ type: 404 });
+            res.send({ articles });
+        })
+        .catch(err => {
+            next(err);
+        });
+}
 
-module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile };
+module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile, getUserPublicRepos };
