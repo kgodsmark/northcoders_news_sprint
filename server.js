@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const config = require('./config');
 var db = config.DB[process.env.NODE_ENV] || process.env.DB;
-mongoose.Promise = Promise;
+mongoose.Promise = global.Promise;
 const router = require('./routes/api');
 const path = require('path');
 
