@@ -9,6 +9,7 @@ var db = config.DB[process.env.NODE_ENV] || process.env.DB;
 mongoose.Promise = global.Promise;
 const router = require('./routes/api');
 const path = require('path');
+const cors = require('cors');
 
 app.use(express.static(path.join(__dirname, '/public')));
 
@@ -18,6 +19,9 @@ mongoose.connect(db, { useMongoClient: true })
   .catch(err => console.log('connection failed', err));
 
 app.use(bodyParser.json());
+
+app.use(cors());
+app.options('*', cors());
 
 app.use('/api', router);
 
