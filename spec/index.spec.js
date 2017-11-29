@@ -31,6 +31,19 @@ describe('API', () => {
         });
     });
 
+    describe('GET /ARTICLES/:ARTICLE_ID', () => {
+        it('sends back the correct object with a status code of 200', () => {
+            return request
+                .get(`/api/articles/${userData.comments[0].belongs_to}`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body.article).to.be.an('array')
+                    expect(res.body.article.length).to.equal(1)
+                    expect(res.body.article[0].title).to.be.a('string')
+                });
+        });
+    });
+
     describe('GET /TOPICS', () => {
         it('sends back the correct object with a status code of 200', () => {
             return request

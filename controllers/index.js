@@ -7,6 +7,17 @@ function getAllArticles(req, res, next) {
         .catch(err => next(err));
 }
 
+function getArticlebyID(req, res, next) {
+    return Articles.find({ _id: req.params.article_id })
+        .then(article => {
+            if (article.length < 1) return next({ type: 404 });
+            res.send({ article })
+        })
+        .catch(err => {
+            next(err)
+        });
+}
+
 function getAllTopics(req, res, next) {
     return Topics.find()
         .then(topics => res.send({ topics }))
@@ -109,4 +120,4 @@ function getUserPublicRepos(req, res, next) {
         });
 }
 
-module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile, getUserPublicRepos };
+module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile, getUserPublicRepos, getArticlebyID };
