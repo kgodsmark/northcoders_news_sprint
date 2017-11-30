@@ -49,7 +49,7 @@ function getAllCommentsByArticle(req, res, next) {
 }
 
 function addCommentToArticle(req, res, next) {
-    let newComment = new Comments({ body: req.body.body, belongs_to: req.params.article_id, created_by: 'northcoders' }).save()
+    let newComment = new Comments({ body: req.body.body, belongs_to: req.params.article_id, created_by: req.body.username }).save()
         .then((comment) => {
             return Comments.find({ belongs_to: comment.belongs_to })
         })
