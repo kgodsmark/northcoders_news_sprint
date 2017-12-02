@@ -84,43 +84,45 @@ function changeCommentVotes(req, res, next) {
     return Comments.findByIdAndUpdate(req.params.comment_id, { $inc: { votes: increment } }, { new: true })
         .then((comment) => {
             return Comments.find({ belongs_to: comment.belongs_to })
-                .then((comments) => {
-                    res.send({ comments });
-                })
-                .catch(err => {
-                    next(err);
-                });
-        }
+        })
+        .then((comments) => {
+            res.send({ comments });
+        })
+        .catch(err => {
+            next(err);
+        });
+}
+
 
 function deleteComment(req, res, next) {
-            return Comments.findByIdAndRemove(req.params.comment_id)
-                .then((data) => res.status(202).send({ comment_deleted: data }))
-                .catch(err => {
-                    if (err.name === 'CastError') return next({ err, type: 404 });
-                    next(err)
-                });
-        }
+    return Comments.findByIdAndRemove(req.params.comment_id)
+        .then((data) => res.status(202).send({ comment_deleted: data }))
+        .catch(err => {
+            if (err.name === 'CastError') return next({ err, type: 404 });
+            next(err)
+        });
+}
 
 function getUserProfile(req, res, next) {
-            return Users.find({ username: req.params.username })
-                .then(user => {
-                    if (user.length === 0) return next({ type: 404 });
-                    res.send({ user })
-                })
-                .catch(err => {
-                    next(err)
-                });
-        }
+    return Users.find({ username: req.params.username })
+        .then(user => {
+            if (user.length === 0) return next({ type: 404 });
+            res.send({ user })
+        })
+        .catch(err => {
+            next(err)
+        });
+}
 
 function getUserPublicRepos(req, res, next) {
-            return Articles.find({ created_by: req.params.username })
-                .then(articles => {
-                    if (articles.length === 0) return next({ type: 404 });
-                    res.send({ articles });
-                })
-                .catch(err => {
-                    next(err);
-                });
-        }
+    return Articles.find({ created_by: req.params.username })
+        .then(articles => {
+            if (articles.length === 0) return next({ type: 404 });
+            res.send({ articles });
+        })
+        .catch(err => {
+            next(err);
+        });
+}
 
 module.exports = { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile, getUserPublicRepos, getArticlebyID };
