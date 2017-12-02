@@ -13,9 +13,9 @@ router.get('/articles/:article_id/comments', getAllCommentsByArticle);
 
 router.post('/articles/:article_id/comments', addCommentToArticle);
 
-router.put('/articles/:article_id', changeArticleVotes);
+router.patch('/articles/:article_id', changeArticleVotes);
 
-router.put('/comments/:comment_id', changeCommentVotes);
+router.patch('/comments/:comment_id', changeCommentVotes);
 
 router.delete('/comments/:comment_id', deleteComment);
 
