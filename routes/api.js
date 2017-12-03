@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile, getUserPublicRepos, getArticlebyID } = require('../controllers/index');
+const { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile, getUserPublicRepos, getArticlebyID, changeUserProfile } = require('../controllers/index');
 
 router.get('/articles', getAllArticles);
 
@@ -22,5 +22,7 @@ router.delete('/comments/:comment_id', deleteComment);
 router.get('/users/:username', getUserProfile);
 
 router.get('/users/:username/repos', getUserPublicRepos);
+
+router.patch('/users/:username', changeUserProfile);
 
 module.exports = router;
