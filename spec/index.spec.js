@@ -63,9 +63,9 @@ describe('API', () => {
                 .get('/api/topics/football/articles')
                 .expect(200)
                 .then(res => {
-                    expect(res.body.article).to.be.an('array')
-                    expect(res.body.article.length).to.equal(1)
-                    expect(res.body.article[0].belongs_to).to.equal('football')
+                    expect(res.body.articles).to.be.an('array')
+                    expect(res.body.articles.length).to.equal(1)
+                    expect(res.body.articles[0].belongs_to).to.equal('football')
                 });
         });
         it('sends back a 404 response for an incorrect topic', () => {
@@ -106,15 +106,15 @@ describe('API', () => {
                 .send({ body: "This is my new comment", belongs_to: `${userData.comments[0].belongs_to}`, created_by: 'northcoders' })
                 .expect(201)
                 .then(res => {
-                    expect(res.body).to.be.an('array');
-                    expect(res.body.length).to.equal(3);
-                    expect(res.body[2].body).to.be.a('string')
+                    expect(res.body.comments).to.be.an('array');
+                    expect(res.body.comments.length).to.equal(3);
+                    expect(res.body.comments[2].body).to.be.a('string')
                 });
         });
         it('sends back a 400 response for a bad request', () => {
             return request
                 .post('/api/articles/1234/comments')
-                .send({ body: "This is my new comment", belongs_to: `${userData.comments[0].belongs_to}`, created_by: 'northcoders' })
+                .send({ body: "This is my new comment", belongs_to: '1234', created_by: 'northcoders' })
                 .expect(400)
                 .then(res => {
                     expect(res.body.msg).to.equal('bad request')
@@ -122,64 +122,64 @@ describe('API', () => {
         });
     });
 
-    describe('PUT /ARTICLES/:ARTICLE_ID/', () => {
+    describe('PATCH /ARTICLES/:ARTICLE_ID/', () => {
         it('increments the vote by +1 when vote=up', () => {
             return request
-                .put(`/api/articles/${userData.articles[0]._id}?vote=up`)
+                .patch(`/api/articles/${userData.articles[0]._id}?vote=up`)
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object');
-                    expect(res.body.votes).to.equal(1);
+                    expect(res.body.article[0].votes).to.equal(1);
                 });
         });
         it('increments the vote by -1 when vote=down', () => {
             return request
-                .put(`/api/articles/${userData.articles[1]._id}?vote=down`)
+                .patch(`/api/articles/${userData.articles[1]._id}?vote=down`)
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object');
-                    expect(res.body.votes).to.equal(-1);
+                    expect(res.body.article[0].votes).to.equal(-1);
                 });
         });
 
         it('no increment in not valid query', () => {
             return request
-                .put(`/api/articles/${userData.articles[0]._id}?vote=hello`)
+                .patch(`/api/articles/${userData.articles[0]._id}?vote=hello`)
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object');
-                    expect(res.body.votes).to.equal(0);
+                    expect(res.body.article[0].votes).to.equal(0);
                 });
         });
     });
 
-    describe('PUT /COMMENTS/:COMMENT_ID/', () => {
+    describe('PATCH /COMMENTS/:COMMENT_ID/', () => {
         it('increments the vote by +1 when vote=up', () => {
             return request
-                .put(`/api/comments/${userData.comments[0]._id}?vote=up`)
+                .patch(`/api/comments/${userData.comments[0]._id}?vote=up`)
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object');
-                    expect(res.body.votes).to.equal(1);
+                    expect(res.body.comments[0].votes).to.equal(1);
                 });
         });
         it('increments the vote by -1 when vote=down', () => {
             return request
-                .put(`/api/comments/${userData.comments[1]._id}?vote=down`)
+                .patch(`/api/comments/${userData.comments[1]._id}?vote=down`)
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object');
-                    expect(res.body.votes).to.equal(-1);
+                    expect(res.body.comments[1].votes).to.equal(-1);
                 });
         });
 
         it('no increment in not valid query', () => {
             return request
-                .put(`/api/comments/${userData.comments[0]._id}?vote=hello`)
+                .patch(`/api/comments/${userData.comments[0]._id}?vote=hello`)
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object');
-                    expect(res.body.votes).to.equal(0);
+                    expect(res.body.comments[0].votes).to.equal(0);
                 });
         });
     });
@@ -190,7 +190,7 @@ describe('API', () => {
                 .delete(`/api/comments/${userData.comments[0]._id}`)
                 .expect(202)
                 .then(res => {
-                    expect(res.body.comment_deleted._id).to.equal(`${userData.comments[0]._id}`);
+                    expect(res.body.comments[0]._id).to.equal(`${userData.comments[1]._id}`);
                 })
                 .then(() => {
                     return request
