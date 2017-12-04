@@ -171,6 +171,14 @@ describe('API', () => {
                     expect(res.body.article[0].votes).to.equal(0);
                 });
         });
+        it('sends back a 404 response for incorrect article ID', () => {
+            return request
+                .post('/api/articles/1234?vote=up')
+                .expect(404)
+                .then(res => {
+                    expect(res.body.msg).to.equal('page not found')
+                });
+        });
     });
 
     describe('PATCH /COMMENTS/:COMMENT_ID/', () => {
@@ -200,6 +208,14 @@ describe('API', () => {
                 .then(res => {
                     expect(res.body).to.be.an('object');
                     expect(res.body.comments[0].votes).to.equal(0);
+                });
+        });
+        it('sends back a 400 response for incorrect comment ID', () => {
+            return request
+                .post('/api/comments/1234?vote=up')
+                .expect(404)
+                .then(res => {
+                    expect(res.body.msg).to.equal('page not found')
                 });
         });
     });

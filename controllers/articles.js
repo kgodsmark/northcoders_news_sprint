@@ -42,6 +42,7 @@ module.exports = {
         if (req.query.vote === 'down') increment--;
         return Articles.findByIdAndUpdate(req.params.article_id, { $inc: { votes: increment } }, { new: true })
             .then((article) => {
+                if (article.length < 1) return next({ type: 404 });
                 res.send({ article: [article] });
                 next();
             })
