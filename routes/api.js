@@ -4,7 +4,6 @@ const topics = require('../controllers/topics');
 const comments = require('../controllers/comments');
 const users = require('../controllers/users');
 
-
 router.get('/articles', articles.getAllArticles);
 
 router.get('/articles/:article_id', articles.getArticlebyID);

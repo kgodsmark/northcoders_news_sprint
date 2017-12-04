@@ -5,7 +5,6 @@ const supertest = require('supertest');
 const request = supertest(app);
 const { expect } = require('chai');
 const saveTestData = require('../seed/test.seed');
-const { Articles, Comments, Users, Topics } = require('../models/models');
 
 describe('API', () => {
     let userData;
@@ -15,7 +14,7 @@ describe('API', () => {
             .then((data) => {
                 userData = data;
             })
-            .catch((err) => console.log('error', err))
+            .catch((err) => console.log('error', err));
     });
 
     describe('GET /INCORRECT', () => {
@@ -24,7 +23,7 @@ describe('API', () => {
                 .get('/api/wrong')
                 .expect(404)
                 .then(res => {
-                    expect(res.status).to.equal(404)
+                    expect(res.status).to.equal(404);
                 });
         });
     });
@@ -35,9 +34,9 @@ describe('API', () => {
                 .get('/api/articles')
                 .expect(200)
                 .then(res => {
-                    expect(res.body.articles).to.be.an('array')
-                    expect(res.body.articles.length).to.equal(2)
-                    expect(res.body.articles[0].title).to.be.a('string')
+                    expect(res.body.articles).to.be.an('array');
+                    expect(res.body.articles.length).to.equal(2);
+                    expect(res.body.articles[0].title).to.be.a('string');
                 });
         });
     });
@@ -48,9 +47,9 @@ describe('API', () => {
                 .get(`/api/articles/${userData.comments[0].belongs_to}`)
                 .expect(200)
                 .then(res => {
-                    expect(res.body.article).to.be.an('array')
-                    expect(res.body.article.length).to.equal(1)
-                    expect(res.body.article[0].title).to.be.a('string')
+                    expect(res.body.article).to.be.an('array');
+                    expect(res.body.article.length).to.equal(1);
+                    expect(res.body.article[0].title).to.be.a('string');
                 });
         });
         it('sends back a 400 response for an incorrect topic', () => {
@@ -58,7 +57,7 @@ describe('API', () => {
                 .get('/api/articles/1234')
                 .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('bad request')
+                    expect(res.body.msg).to.equal('bad request');
                 });
         });
     });
@@ -69,9 +68,9 @@ describe('API', () => {
                 .get('/api/topics')
                 .expect(200)
                 .then(res => {
-                    expect(res.body.topics).to.be.an('array')
-                    expect(res.body.topics.length).to.equal(3)
-                    expect(res.body.topics[0].title).to.be.a('string')
+                    expect(res.body.topics).to.be.an('array');
+                    expect(res.body.topics.length).to.equal(3);
+                    expect(res.body.topics[0].title).to.be.a('string');
                 });
         });
     });
@@ -82,9 +81,9 @@ describe('API', () => {
                 .get('/api/topics/football/articles')
                 .expect(200)
                 .then(res => {
-                    expect(res.body.articles).to.be.an('array')
-                    expect(res.body.articles.length).to.equal(1)
-                    expect(res.body.articles[0].belongs_to).to.equal('football')
+                    expect(res.body.articles).to.be.an('array');
+                    expect(res.body.articles.length).to.equal(1);
+                    expect(res.body.articles[0].belongs_to).to.equal('football');
                 });
         });
         it('sends back a 404 response for an incorrect topic', () => {
@@ -92,7 +91,7 @@ describe('API', () => {
                 .get('/api/topics/wrong/articles')
                 .expect(404)
                 .then(res => {
-                    expect(res.body.msg).to.equal('page not found')
+                    expect(res.body.msg).to.equal('page not found');
                 });
         });
     });
@@ -103,9 +102,9 @@ describe('API', () => {
                 .get(`/api/articles/${userData.comments[0].belongs_to}/comments`)
                 .expect(200)
                 .then(res => {
-                    expect(res.body.comments).to.be.an('array')
-                    expect(res.body.comments.length).to.equal(2)
-                    expect(res.body.comments[0].belongs_to).to.be.a('string')
+                    expect(res.body.comments).to.be.an('array');
+                    expect(res.body.comments.length).to.equal(2);
+                    expect(res.body.comments[0].belongs_to).to.be.a('string');
                 });
         });
         it('sends back a 400 response for an incorrect article id', () => {
@@ -113,8 +112,8 @@ describe('API', () => {
                 .get('/api/articles/1234/comments')
                 .expect(400)
                 .then(res => {
-                    res.body
-                    expect(res.body.msg).to.equal('bad request')
+                    res.body;
+                    expect(res.body.msg).to.equal('bad request');
                 });
         });
     });
@@ -123,21 +122,21 @@ describe('API', () => {
         it('saves a new comment to the article with a status code of 201', () => {
             return request
                 .post(`/api/articles/${userData.comments[0].belongs_to}/comments`)
-                .send({ body: "This is my new comment", belongs_to: `${userData.comments[0].belongs_to}`, created_by: 'northcoders' })
+                .send({ body: 'This is my new comment', belongs_to: `${userData.comments[0].belongs_to}`, created_by: 'northcoders' })
                 .expect(201)
                 .then(res => {
                     expect(res.body.comments).to.be.an('array');
                     expect(res.body.comments.length).to.equal(3);
-                    expect(res.body.comments[2].body).to.be.a('string')
+                    expect(res.body.comments[2].body).to.be.a('string');
                 });
         });
         it('sends back a 400 response for a bad request', () => {
             return request
                 .post('/api/articles/1234/comments')
-                .send({ body: "This is my new comment", belongs_to: '1234', created_by: 'northcoders' })
+                .send({ body: 'This is my new comment', belongs_to: '1234', created_by: 'northcoders' })
                 .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('bad request')
+                    expect(res.body.msg).to.equal('bad request');
                 });
         });
     });
@@ -176,7 +175,7 @@ describe('API', () => {
                 .patch('/api/articles/1234?vote=up')
                 .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('bad request')
+                    expect(res.body.msg).to.equal('bad request');
                 });
         });
     });
@@ -215,7 +214,7 @@ describe('API', () => {
                 .patch('/api/comments/1234?vote=up')
                 .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('bad request')
+                    expect(res.body.msg).to.equal('bad request');
                 });
         });
     });
@@ -233,19 +232,19 @@ describe('API', () => {
                         .get(`/api/articles/${userData.comments[0].belongs_to}/comments`)
                         .expect(200)
                         .then(res => {
-                            expect(res.body.comments).to.be.an('array')
-                            expect(res.body.comments.length).to.equal(1)
-                            expect(res.body.comments[0].belongs_to).to.be.a('string')
+                            expect(res.body.comments).to.be.an('array');
+                            expect(res.body.comments.length).to.equal(1);
+                            expect(res.body.comments[0].belongs_to).to.be.a('string');
                         });
                 });
         });
         it('returns error message if incorrect parameter', () => {
             return request
-                .delete(`/api/comments/1234`)
+                .delete('/api/comments/1234')
                 .expect(400)
                 .then(res => {
                     expect(res.body.msg).to.equal('bad request');
-                })
+                });
         });
     });
 
@@ -255,9 +254,9 @@ describe('API', () => {
                 .get('/api/users/northcoder')
                 .expect(200)
                 .then(res => {
-                    expect(res.body.user).to.be.an('array')
-                    expect(res.body.user.length).to.equal(1)
-                    expect(res.body.user[0].username).to.be.a('string')
+                    expect(res.body.user).to.be.an('array');
+                    expect(res.body.user.length).to.equal(1);
+                    expect(res.body.user[0].username).to.be.a('string');
                 });
         });
         it('sends an error message if user doesn\'t exist', () => {
@@ -265,7 +264,7 @@ describe('API', () => {
                 .get('/api/users/kerry')
                 .expect(404)
                 .then(res => {
-                    expect(res.body.msg).to.equal('page not found')
+                    expect(res.body.msg).to.equal('page not found');
                 });
         });
     });
@@ -276,9 +275,9 @@ describe('API', () => {
                 .get('/api/users/northcoder/repos')
                 .expect(200)
                 .then(res => {
-                    expect(res.body.articles).to.be.an('array')
-                    expect(res.body.articles.length).to.equal(2)
-                    expect(res.body.articles[0].created_by).to.be.a('string')
+                    expect(res.body.articles).to.be.an('array');
+                    expect(res.body.articles.length).to.equal(2);
+                    expect(res.body.articles[0].created_by).to.be.a('string');
                 });
         });
         it('sends an error message if user doesn\'t exist', () => {
@@ -286,7 +285,7 @@ describe('API', () => {
                 .get('/api/users/kerry/repos')
                 .expect(404)
                 .then(res => {
-                    expect(res.body.msg).to.equal('page not found')
+                    expect(res.body.msg).to.equal('page not found');
                 });
         });
     });

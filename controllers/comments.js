@@ -9,25 +9,24 @@ module.exports = {
             })
             .catch(err => {
                 if (err.name === 'CastError') return next({ err, type: 400 });
-                next(err)
+                next(err);
             });
     },
 
     addCommentToArticle(req, res, next) {
-        const newComment = new Comments({ body: req.body.body, belongs_to: req.body.belongs_to, created_by: req.body.created_by })
+        const newComment = new Comments({ body: req.body.body, belongs_to: req.body.belongs_to, created_by: req.body.created_by });
         return newComment.save()
             .then((comment) => {
-                return Comments.find({ belongs_to: comment.belongs_to }).sort({ created_at: -1 })
+                return Comments.find({ belongs_to: comment.belongs_to }).sort({ created_at: -1 });
             })
             .then((comments) => {
                 res.status(201).send({ comments });
             })
             .catch((err) => {
                 if (err.name === 'ValidationError') return next({ err, type: 400 });
-                next(err)
+                next(err);
             });
     },
-
 
     changeCommentVotes(req, res, next) {
         let increment = 0;
@@ -35,7 +34,7 @@ module.exports = {
         if (req.query.vote === 'down') increment--;
         return Comments.findByIdAndUpdate(req.params.comment_id, { $inc: { votes: increment } }, { new: true })
             .then((comment) => {
-                return Comments.find({ belongs_to: comment.belongs_to }).sort({ created_at: -1 })
+                return Comments.find({ belongs_to: comment.belongs_to }).sort({ created_at: -1 });
             })
             .then((comments) => {
                 res.send({ comments });
@@ -47,11 +46,10 @@ module.exports = {
             });
     },
 
-
     deleteComment(req, res, next) {
         return Comments.findByIdAndRemove(req.params.comment_id)
             .then((comment) => {
-                return Comments.find({ belongs_to: comment.belongs_to }).sort({ created_at: -1 })
+                return Comments.find({ belongs_to: comment.belongs_to }).sort({ created_at: -1 });
             })
             .then((comments) => {
                 res.status(202).send({ comments });
@@ -59,7 +57,7 @@ module.exports = {
             })
             .catch(err => {
                 if (err.name === 'CastError') return next({ err, type: 400 });
-                next(err)
+                next(err);
             });
     }
 

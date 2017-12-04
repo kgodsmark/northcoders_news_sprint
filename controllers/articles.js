@@ -1,6 +1,5 @@
 const { Articles } = require('../models/models');
 
-
 module.exports = {
     getAllArticles(req, res, next) {
         return Articles.find().sort({ votes: -1 }).limit(15)
@@ -32,7 +31,7 @@ module.exports = {
                 next();
             })
             .catch(err => {
-                next(err)
+                next(err);
             });
     },
 
