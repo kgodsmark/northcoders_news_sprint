@@ -1,28 +1,32 @@
 const router = require('express').Router();
-const { getAllArticles, getAllTopics, getAllArticlesByTopic, getAllCommentsByArticle, addCommentToArticle, changeArticleVotes, changeCommentVotes, deleteComment, getUserProfile, getUserPublicRepos, getArticlebyID, changeUserProfile } = require('../controllers/index');
+const articles = require('../controllers/articles');
+const topics = require('../controllers/topics');
+const comments = require('../controllers/comments');
+const users = require('../controllers/users');
 
-router.get('/articles', getAllArticles);
 
-router.get('/articles/:article_id', getArticlebyID);
+router.get('/articles', articles.getAllArticles);
 
-router.get('/topics', getAllTopics);
+router.get('/articles/:article_id', articles.getArticlebyID);
 
-router.get('/topics/:topic/articles', getAllArticlesByTopic);
+router.get('/topics/:topic/articles', articles.getAllArticlesByTopic);
 
-router.get('/articles/:article_id/comments', getAllCommentsByArticle);
+router.patch('/articles/:article_id', articles.changeArticleVotes);
 
-router.post('/articles/:article_id/comments', addCommentToArticle);
+router.get('/users/:username/repos', articles.getUserPublicRepos);
 
-router.patch('/articles/:article_id', changeArticleVotes);
+router.get('/topics', topics.getAllTopics);
 
-router.patch('/comments/:comment_id', changeCommentVotes);
+router.get('/articles/:article_id/comments', comments.getAllCommentsByArticle);
 
-router.delete('/comments/:comment_id', deleteComment);
+router.post('/articles/:article_id/comments', comments.addCommentToArticle);
 
-router.get('/users/:username', getUserProfile);
+router.patch('/comments/:comment_id', comments.changeCommentVotes);
 
-router.get('/users/:username/repos', getUserPublicRepos);
+router.delete('/comments/:comment_id', comments.deleteComment);
 
-router.patch('/users/:username', changeUserProfile);
+router.get('/users/:username', users.getUserProfile);
+
+router.patch('/users/:username', users.changeUserProfile);
 
 module.exports = router;
