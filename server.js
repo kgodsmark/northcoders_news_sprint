@@ -17,10 +17,11 @@ mongoose.connect(db, { useMongoClient: true })
   .then(() => console.log('successfully connected to', db))
   .catch(err => console.log('connection failed', err));
 
-app.use(bodyParser.json());
 
-app.use(cors());
 app.options('*', cors());
+app.use(cors());
+
+app.use(bodyParser.json());
 
 app.use('/api', router);
 
