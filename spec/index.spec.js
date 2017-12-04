@@ -171,12 +171,12 @@ describe('API', () => {
                     expect(res.body.article[0].votes).to.equal(0);
                 });
         });
-        it('sends back a 404 response for incorrect article ID', () => {
+        it('sends back a 400 response for incorrect article ID', () => {
             return request
-                .post('/api/articles/1234?vote=up')
-                .expect(404)
+                .patch('/api/articles/1234?vote=up')
+                .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('page not found')
+                    expect(res.body.msg).to.equal('bad request')
                 });
         });
     });
@@ -212,10 +212,10 @@ describe('API', () => {
         });
         it('sends back a 400 response for incorrect comment ID', () => {
             return request
-                .post('/api/comments/1234?vote=up')
-                .expect(404)
+                .patch('/api/comments/1234?vote=up')
+                .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('page not found')
+                    expect(res.body.msg).to.equal('bad request')
                 });
         });
     });
@@ -239,7 +239,6 @@ describe('API', () => {
                         });
                 });
         });
-
         it('returns error message if incorrect parameter', () => {
             return request
                 .delete(`/api/comments/1234`)

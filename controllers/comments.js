@@ -35,7 +35,6 @@ module.exports = {
         if (req.query.vote === 'down') increment--;
         return Comments.findByIdAndUpdate(req.params.comment_id, { $inc: { votes: increment } }, { new: true })
             .then((comment) => {
-                if (comment.length < 1) return next({ type: 404 });
                 return Comments.find({ belongs_to: comment.belongs_to }).sort({ created_at: -1 })
             })
             .then((comments) => {
@@ -43,6 +42,7 @@ module.exports = {
                 next();
             })
             .catch(err => {
+                if (err.name === 'CastError') return next({ err, type: 400 });
                 next(err);
             });
     },

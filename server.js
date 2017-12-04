@@ -27,11 +27,6 @@ app.use('/api', router);
 
 module.exports = app;
 
-app.use((req, res) => {
-  res.status(404).send({ msg: 'page not found' })
-});
-
-
 app.use((err, req, res, next) => {
   if (err.type === 404) return res.status(404).send({ msg: 'page not found' })
   if (err.type === 400) return res.status(400).send({ msg: 'bad request' })
