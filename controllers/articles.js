@@ -19,7 +19,8 @@ module.exports = {
                 next();
             })
             .catch(err => {
-                next(err)
+                if (err.name === 'CastError') return next({ err, type: 400 });
+                next(err);
             });
     },
 

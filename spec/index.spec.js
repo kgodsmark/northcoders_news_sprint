@@ -42,6 +42,14 @@ describe('API', () => {
                     expect(res.body.article[0].title).to.be.a('string')
                 });
         });
+        it('sends back a 404 response for an incorrect topic', () => {
+            return request
+                .get('/api/articles/1234')
+                .expect(400)
+                .then(res => {
+                    expect(res.body.msg).to.equal('bad request')
+                });
+        });
     });
 
     describe('GET /TOPICS', () => {
@@ -92,9 +100,10 @@ describe('API', () => {
         it('sends back a 404 response for an incorrect article id', () => {
             return request
                 .get('/api/articles/1234/comments')
-                .expect(404)
+                .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('page not found')
+                    res.body
+                    expect(res.body.msg).to.equal('bad request')
                 });
         });
     });
@@ -142,7 +151,7 @@ describe('API', () => {
                 });
         });
 
-        it('no increment in not valid query', () => {
+        it('no increment if not valid query', () => {
             return request
                 .patch(`/api/articles/${userData.articles[0]._id}?vote=hello`)
                 .expect(200)
@@ -165,15 +174,15 @@ describe('API', () => {
         });
         it('increments the vote by -1 when vote=down', () => {
             return request
-                .patch(`/api/comments/${userData.comments[1]._id}?vote=down`)
+                .patch(`/api/comments/${userData.comments[0]._id}?vote=down`)
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object');
-                    expect(res.body.comments[1].votes).to.equal(-1);
+                    expect(res.body.comments[0].votes).to.equal(-1);
                 });
         });
 
-        it('no increment in not valid query', () => {
+        it('no increment if not valid query', () => {
             return request
                 .patch(`/api/comments/${userData.comments[0]._id}?vote=hello`)
                 .expect(200)
@@ -207,9 +216,9 @@ describe('API', () => {
         it('returns error message if incorrect parameter', () => {
             return request
                 .delete(`/api/comments/1234`)
-                .expect(404)
+                .expect(400)
                 .then(res => {
-                    expect(res.body.msg).to.equal('page not found');
+                    expect(res.body.msg).to.equal('bad request');
                 })
         });
     });
