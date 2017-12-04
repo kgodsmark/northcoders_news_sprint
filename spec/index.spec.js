@@ -18,6 +18,17 @@ describe('API', () => {
             .catch((err) => console.log('error', err))
     });
 
+    describe('GET /INCORRECT', () => {
+        it('sends back a 404 response for an incorrect path', () => {
+            return request
+                .get('/api/wrong')
+                .expect(404)
+                .then(res => {
+                    expect(res.status).to.equal(404)
+                });
+        });
+    });
+
     describe('GET /ARTICLES', () => {
         it('sends back the correct object with a status code of 200', () => {
             return request
@@ -42,7 +53,7 @@ describe('API', () => {
                     expect(res.body.article[0].title).to.be.a('string')
                 });
         });
-        it('sends back a 404 response for an incorrect topic', () => {
+        it('sends back a 400 response for an incorrect topic', () => {
             return request
                 .get('/api/articles/1234')
                 .expect(400)
@@ -97,7 +108,7 @@ describe('API', () => {
                     expect(res.body.comments[0].belongs_to).to.be.a('string')
                 });
         });
-        it('sends back a 404 response for an incorrect article id', () => {
+        it('sends back a 400 response for an incorrect article id', () => {
             return request
                 .get('/api/articles/1234/comments')
                 .expect(400)
