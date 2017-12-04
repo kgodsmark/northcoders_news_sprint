@@ -1,4 +1,4 @@
-const { Topics } = require('../models/models');
+const { Topics } = require('../models');
 
 module.exports = {
     getAllTopics(req, res, next) {

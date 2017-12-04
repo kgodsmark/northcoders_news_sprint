@@ -1,4 +1,4 @@
-const { Comments } = require('../models/models');
+const { Comments } = require('../models');
 
 module.exports = {
     getAllCommentsByArticle(req, res, next) {
