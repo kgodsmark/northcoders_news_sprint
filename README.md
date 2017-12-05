@@ -1,6 +1,8 @@
 # Northcoders News Back-End
 
-API for the reddit-style northcoders news, using Node.js, express and a MongoDB. The project is hosted on heroku [here](https://read-godsmark-news.herokuapp.com/)
+API for the reddit-style northcoders news, using Node.js, express and a MongoDB. The API is hosted on heroku [here](https://godsmark-news.herokuapp.com/).
+
+The website using this API is hosted on heroku [here](https://read-godsmark-news.herokuapp.com/).
 
 ## Getting Started
 
