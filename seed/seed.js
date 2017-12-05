@@ -11,9 +11,8 @@ var log4js = require('log4js');
 var logger = log4js.getLogger();
 var moment = require('moment');
 var DBs = require('../config').DB;
-var ENV = process.env.NODE_ENV;
 
-mongoose.connect(DBs.ENV, function (err) {
+mongoose.connect(DBs.NODE_ENV, function (err) {
   if (!err) {
     logger.info(`connected to database ${DBs.dev}`);
     mongoose.connection.db.dropDatabase();

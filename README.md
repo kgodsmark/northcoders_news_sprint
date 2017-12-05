@@ -64,7 +64,6 @@ $ npm test
 * [Mongoose](http://mongoosejs.com/)
 * [mLab](https://mlab.com/welcome/)
 * [Heroku](https://heroku.com)
-* [Axios](https://www.npmjs.com/package/axios)
 
 ## Authors
 

@@ -19,7 +19,7 @@
       "no-multiple-empty-lines": ["error", {"max": 1}],
       "eol-last": "error",
       "handle-callback-err": "error",
-      "camelcase": "warn",
+      "camelcase": 0,
       "comma-spacing": "warn",
       "quotes": ["error", "single"],
       "no-console": 0

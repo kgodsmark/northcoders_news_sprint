@@ -14,7 +14,7 @@ module.exports = {
     },
     changeUserProfile(req, res, next) {
         return Users.findByIdAndUpdate(req.params.username, { $set: { avatar_url: req.body.url } }, { new: true })
-            .then((user) => {
+            .then(() => {
                 return Users.find({ username: req.params.username });
             })
             .then(user => {

@@ -17,7 +17,6 @@ mongoose.connect(db, { useMongoClient: true })
   .then(() => console.log('successfully connected to', db))
   .catch(err => console.log('connection failed', err));
 
-
 app.options('*', cors());
 app.use(cors());
 
