@@ -13,9 +13,15 @@ To run this back-end on your local machine for development and testing purposes 
 
 Built on Node.js v8.6.0 and MongoDB v3.4.10. You will need Node.js and MongoDB installed locally.
 
-### Seed the database
+Open your terminal window to check versions
+```
+$ node --version
+$ mongod --version
+```
 
-Install dependencies
+### Instructions
+
+Via your terminal window, clone this code onto your machine, go to the folder and install dependencies
 ```
 $ npm install
 ```
@@ -25,7 +31,7 @@ Make sure a local MongoDB instance is running on port 27017
 $ mongod
 ```
 
-Run the seed file with node
+Seed the database
 ```
 $ node seed/seed.js
 ```
@@ -34,7 +40,7 @@ The process can take up to a couple of minutes to complete as there is a lot of 
 Once the process is complete you will see the log line 'Database Seeded' and the node process will exit.
 
 
-### Deploy API
+### Launch API
 
 Execute
 ```
@@ -47,8 +53,22 @@ And when finished
 $ npm start
 ```
 
-It should be available in your [localhost:3000](http://localhost:3001/api/articles)
+The following routes will be available in your [localhost:3001](http://localhost:3001/api/articles)
 
+# Routes
+```
+GET /api/topics
+GET /api/topics/:topic_id/articles
+GET /api/articles
+GET /api/articles/:article_id/
+GET /api/articles/:article_id/comments
+POST /api/articles/:article_id/comments
+PATCH /api/articles/:article_id
+PUT /api/comments/:comment_id
+DELETE /api/comments/:comment_id
+GET /api/users/:username
+GET /api/users/:username/repos
+```
 
 ## Running the tests
 

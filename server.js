@@ -1,15 +1,18 @@
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const app = express();
-const config = require('./config');
-var db = config.DB[process.env.NODE_ENV] || process.env.DB;
-mongoose.Promise = global.Promise;
-const router = require('./routes/');
-const path = require('path');
 const cors = require('cors');
+const app = express();
+
+const config = require('./config');
+const db = config.DB[process.env.NODE_ENV] || process.env.DB;
+const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT;
+const router = require('./routes/');
+
+mongoose.Promise = global.Promise;
 
 app.use(express.static(path.join(__dirname, '/public')));
 
