@@ -7,7 +7,7 @@ const app = express();
 const config = require('./config');
 var db = config.DB[process.env.NODE_ENV] || process.env.DB;
 mongoose.Promise = global.Promise;
-const router = require('./routes/api');
+const router = require('./routes/');
 const path = require('path');
 const cors = require('cors');
 
@@ -22,7 +22,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-app.use('/api', router);
+app.use(router);
 
 module.exports = app;
 
